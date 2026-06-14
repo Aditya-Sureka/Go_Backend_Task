@@ -106,3 +106,40 @@ return c.JSON(
 
 
 }
+
+func (h *UserHandler) ListUsers(
+c *fiber.Ctx,
+) error {
+
+
+users, err := h.Service.ListUsers(
+	c.UserContext(),
+)
+
+if err != nil {
+	return c.Status(fiber.StatusInternalServerError).JSON(
+		fiber.Map{
+			"error": err.Error(),
+		},
+	)
+}
+
+response := make([]fiber.Map, 0)
+
+for _, user := range users {
+
+	response = append(
+		response,
+		fiber.Map{
+			"id":   user.ID,
+			"name": user.Name,
+			"dob":  user.Dob.Format("2006-01-02"),
+			"age":  service.CalculateAge(user.Dob),
+		},
+	)
+}
+
+return c.JSON(response)
+
+}
+

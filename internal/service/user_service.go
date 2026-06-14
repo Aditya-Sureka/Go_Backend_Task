@@ -50,3 +50,10 @@ func (s *UserService) GetUser(
 		id,
 	)
 }
+
+func (s *UserService) ListUsers(
+ctx context.Context,
+) ([]sqlc.User, error) {
+
+return s.Repo.ListUsers(ctx)
+}

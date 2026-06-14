@@ -41,3 +41,14 @@ func (r *UserRepository) CreateUser(
 		},
 	)
 }
+
+func (r *UserRepository) ListUsers(
+ctx context.Context,
+) ([]sqlc.User, error) {
+
+
+return r.Queries.ListUsers(ctx)
+
+
+}
+

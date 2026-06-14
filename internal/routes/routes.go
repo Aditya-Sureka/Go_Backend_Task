@@ -23,4 +23,9 @@ func Setup(
 		"/users/:id",
 		userHandler.GetUser,
 	)
+
+	app.Get(
+		"/users",
+		userHandler.ListUsers,
+	)
 }
