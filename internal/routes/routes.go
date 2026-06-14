@@ -10,6 +10,10 @@ func Setup(
 	userHandler *handler.UserHandler,
 ) {
 
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("API Running")
+	})
+
 	app.Post(
 		"/users",
 		userHandler.CreateUser,
