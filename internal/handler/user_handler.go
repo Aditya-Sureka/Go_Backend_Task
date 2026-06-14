@@ -201,4 +201,40 @@ return c.JSON(
 
 }
 
+func (h *UserHandler) DeleteUser(
+c *fiber.Ctx,
+) error {
+
+
+id, err := c.ParamsInt("id")
+
+if err != nil {
+	return c.Status(fiber.StatusBadRequest).JSON(
+		fiber.Map{
+			"error": "invalid user id",
+		},
+	)
+}
+
+err = h.Service.DeleteUser(
+	c.UserContext(),
+	int32(id),
+)
+
+if err != nil {
+	return c.Status(fiber.StatusInternalServerError).JSON(
+		fiber.Map{
+			"error": err.Error(),
+		},
+	)
+}
+
+return c.SendStatus(
+	fiber.StatusNoContent,
+)
+
+
+}
+
+
 

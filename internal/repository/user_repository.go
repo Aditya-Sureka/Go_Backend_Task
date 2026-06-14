@@ -66,7 +66,20 @@ return r.Queries.UpdateUser(
 		Dob:  dob,
 	},
 )
+}
+
+func (r *UserRepository) DeleteUser(
+ctx context.Context,
+id int32,
+) error {
+
+
+return r.Queries.DeleteUser(
+	ctx,
+	id,
+)
 
 
 }
+
 

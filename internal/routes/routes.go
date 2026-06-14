@@ -33,4 +33,9 @@ func Setup(
 		"/users/:id",
 		userHandler.UpdateUser,
 	)
+
+	app.Delete(
+		"/users/:id",
+		userHandler.DeleteUser,
+	)
 }

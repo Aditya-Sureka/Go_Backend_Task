@@ -82,3 +82,15 @@ return s.Repo.UpdateUser(
 	parsedDOB,
 )
 }
+
+func (s *UserService) DeleteUser(
+ctx context.Context,
+id int32,
+) error {
+
+
+return s.Repo.DeleteUser(
+	ctx,
+	id,
+)
+}
