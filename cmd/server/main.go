@@ -1,18 +1,17 @@
 package main
 
 import (
-"log"
+	"log"
 
-
-"github.com/Aditya-Sureka/Go_Backend_Task/config"
-"github.com/Aditya-Sureka/Go_Backend_Task/db/sqlc"
-"github.com/Aditya-Sureka/Go_Backend_Task/internal/handler"
-"github.com/Aditya-Sureka/Go_Backend_Task/internal/repository"
-"github.com/Aditya-Sureka/Go_Backend_Task/internal/routes"
-"github.com/Aditya-Sureka/Go_Backend_Task/internal/service"
-"github.com/gofiber/fiber/v2"
-"github.com/Aditya-Sureka/Go_Backend_Task/internal/logger"
-
+	"github.com/Aditya-Sureka/Go_Backend_Task/config"
+	"github.com/Aditya-Sureka/Go_Backend_Task/db/sqlc"
+	"github.com/Aditya-Sureka/Go_Backend_Task/internal/handler"
+	"github.com/Aditya-Sureka/Go_Backend_Task/internal/logger"
+	"github.com/Aditya-Sureka/Go_Backend_Task/internal/middleware"
+	"github.com/Aditya-Sureka/Go_Backend_Task/internal/repository"
+	"github.com/Aditya-Sureka/Go_Backend_Task/internal/routes"
+	"github.com/Aditya-Sureka/Go_Backend_Task/internal/service"
+	"github.com/gofiber/fiber/v2"
 
 )
 
@@ -33,6 +32,14 @@ userService := service.NewUserService(userRepo)
 userHandler := handler.NewUserHandler(userService)
 
 app := fiber.New()
+
+app.Use(
+	middleware.RequestLogger(),
+)
+
+app.Use(
+	middleware.RequestID(),
+)
 
 routes.Setup(app, userHandler)
 
