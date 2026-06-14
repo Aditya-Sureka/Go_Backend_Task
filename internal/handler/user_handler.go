@@ -45,7 +45,7 @@ func (h *UserHandler) CreateUser(
 	}
 
 	user, err := h.Service.CreateUser(
-		c.Context(),
+		c.UserContext(),
 		req.Name,
 		req.DOB,
 	)
@@ -65,4 +65,44 @@ func (h *UserHandler) CreateUser(
 			"dob":  user.Dob.Format("2006-01-02"),
 		},
 	)
+}
+
+func (h *UserHandler) GetUser(
+c *fiber.Ctx,
+) error {
+
+
+id, err := c.ParamsInt("id")
+
+if err != nil {
+	return c.Status(fiber.StatusBadRequest).JSON(
+		fiber.Map{
+			"error": "invalid user id",
+		},
+	)
+}
+
+user, err := h.Service.GetUser(
+	c.UserContext(),
+	int32(id),
+)
+
+if err != nil {
+	return c.Status(fiber.StatusNotFound).JSON(
+		fiber.Map{
+			"error": "user not found",
+		},
+	)
+}
+
+return c.JSON(
+	fiber.Map{
+		"id":   user.ID,
+		"name": user.Name,
+		"dob":  user.Dob.Format("2006-01-02"),
+		"age":  service.CalculateAge(user.Dob),
+	},
+)
+
+
 }

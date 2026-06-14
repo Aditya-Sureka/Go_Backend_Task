@@ -18,4 +18,9 @@ func Setup(
 		"/users",
 		userHandler.CreateUser,
 	)
+
+	app.Get(
+		"/users/:id",
+		userHandler.GetUser,
+	)
 }

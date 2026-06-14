@@ -11,6 +11,16 @@ type UserRepository struct {
 	Queries *sqlc.Queries
 }
 
+func (r *UserRepository) GetUser(
+	ctx context.Context,
+	id int32,
+) (sqlc.User, error) {
+	return r.Queries.GetUser(
+		ctx,
+		id,
+	)
+}
+
 func NewUserRepository(q *sqlc.Queries) *UserRepository {
 	return &UserRepository{
 		Queries: q,

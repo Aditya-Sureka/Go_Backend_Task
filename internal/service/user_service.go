@@ -25,7 +25,6 @@ func (s *UserService) CreateUser(
 	name string,
 	dob string,
 ) (sqlc.User, error) {
-
 	parsedDOB, err := time.Parse(
 		"2006-01-02",
 		dob,
@@ -39,5 +38,15 @@ func (s *UserService) CreateUser(
 		ctx,
 		name,
 		parsedDOB,
+	)
+}
+
+func (s *UserService) GetUser(
+	ctx context.Context,
+	id int32,
+) (sqlc.User, error) {
+	return s.Repo.GetUser(
+		ctx,
+		id,
 	)
 }
