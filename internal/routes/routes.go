@@ -28,4 +28,9 @@ func Setup(
 		"/users",
 		userHandler.ListUsers,
 	)
+
+	app.Put(
+		"/users/:id",
+		userHandler.UpdateUser,
+	)
 }

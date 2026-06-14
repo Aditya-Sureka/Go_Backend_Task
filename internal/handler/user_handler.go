@@ -143,3 +143,62 @@ return c.JSON(response)
 
 }
 
+func (h *UserHandler) UpdateUser(
+c *fiber.Ctx,
+) error {
+
+
+id, err := c.ParamsInt("id")
+
+if err != nil {
+	return c.Status(fiber.StatusBadRequest).JSON(
+		fiber.Map{
+			"error": "invalid user id",
+		},
+	)
+}
+
+var req models.CreateUserRequest
+
+if err := c.BodyParser(&req); err != nil {
+	return c.Status(fiber.StatusBadRequest).JSON(
+		fiber.Map{
+			"error": "invalid request body",
+		},
+	)
+}
+
+if err := h.Validate.Struct(req); err != nil {
+	return c.Status(fiber.StatusBadRequest).JSON(
+		fiber.Map{
+			"error": err.Error(),
+		},
+	)
+}
+
+user, err := h.Service.UpdateUser(
+	c.UserContext(),
+	int32(id),
+	req.Name,
+	req.DOB,
+)
+
+if err != nil {
+	return c.Status(fiber.StatusInternalServerError).JSON(
+		fiber.Map{
+			"error": err.Error(),
+		},
+	)
+}
+
+return c.JSON(
+	fiber.Map{
+		"id":   user.ID,
+		"name": user.Name,
+		"dob":  user.Dob.Format("2006-01-02"),
+	},
+)
+
+}
+
+

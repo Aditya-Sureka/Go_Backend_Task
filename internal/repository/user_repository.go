@@ -48,6 +48,24 @@ ctx context.Context,
 
 
 return r.Queries.ListUsers(ctx)
+}
+
+func (r *UserRepository) UpdateUser(
+ctx context.Context,
+id int32,
+name string,
+dob time.Time,
+) (sqlc.User, error) {
+
+
+return r.Queries.UpdateUser(
+	ctx,
+	sqlc.UpdateUserParams{
+		ID:   id,
+		Name: name,
+		Dob:  dob,
+	},
+)
 
 
 }

@@ -57,3 +57,28 @@ ctx context.Context,
 
 return s.Repo.ListUsers(ctx)
 }
+
+func (s *UserService) UpdateUser(
+ctx context.Context,
+id int32,
+name string,
+dob string,
+) (sqlc.User, error) {
+
+
+parsedDOB, err := time.Parse(
+	"2006-01-02",
+	dob,
+)
+
+if err != nil {
+	return sqlc.User{}, err
+}
+
+return s.Repo.UpdateUser(
+	ctx,
+	id,
+	name,
+	parsedDOB,
+)
+}
