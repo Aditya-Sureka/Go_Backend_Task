@@ -11,12 +11,15 @@ import (
 "github.com/Aditya-Sureka/Go_Backend_Task/internal/routes"
 "github.com/Aditya-Sureka/Go_Backend_Task/internal/service"
 "github.com/gofiber/fiber/v2"
+"github.com/Aditya-Sureka/Go_Backend_Task/internal/logger"
 
 
 )
 
 func main() {
 
+logger.Init()
+defer logger.Log.Sync()
 
 db := config.ConnectDB()
 defer db.Close()

@@ -1,10 +1,12 @@
 package handler
 
 import (
+	"github.com/Aditya-Sureka/Go_Backend_Task/internal/logger"
 	"github.com/Aditya-Sureka/Go_Backend_Task/internal/models"
 	"github.com/Aditya-Sureka/Go_Backend_Task/internal/service"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"go.uber.org/zap"
 )
 
 type UserHandler struct {
@@ -58,6 +60,12 @@ func (h *UserHandler) CreateUser(
 		)
 	}
 
+	logger.Log.Info(
+		"user created",
+		zap.Int32("id", user.ID),
+		zap.String("name", user.Name),
+	)
+
 	return c.Status(fiber.StatusCreated).JSON(
 		fiber.Map{
 			"id":   user.ID,
@@ -94,6 +102,12 @@ if err != nil {
 		},
 	)
 }
+
+logger.Log.Info(
+	"user fetched",
+	zap.Int32("id", user.ID),
+	zap.String("name", user.Name),
+)
 
 return c.JSON(
 	fiber.Map{
@@ -191,6 +205,12 @@ if err != nil {
 	)
 }
 
+logger.Log.Info(
+	"user updated",
+	zap.Int32("id", user.ID),
+	zap.String("name", user.Name),
+)
+
 return c.JSON(
 	fiber.Map{
 		"id":   user.ID,
@@ -228,6 +248,11 @@ if err != nil {
 		},
 	)
 }
+
+logger.Log.Info(
+	"user deleted",
+	zap.Int32("id", int32(id)),
+)
 
 return c.SendStatus(
 	fiber.StatusNoContent,
