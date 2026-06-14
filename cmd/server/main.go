@@ -1,20 +1,28 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
+"log"
 
-	"github.com/Aditya-Sureka/Go_Backend_Task/config"
+
+"github.com/Aditya-Sureka/Go_Backend_Task/config"
+"github.com/gofiber/fiber/v2"
+
+
 )
 
 func main() {
 
-	config.ConnectDB()
 
-	app := fiber.New()
+db := config.ConnectDB()
+defer db.Close()
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Server Running")
-	})
+app := fiber.New()
 
-	app.Listen(":3000")
+app.Get("/", func(c *fiber.Ctx) error {
+	return c.SendString("Server Running")
+})
+
+log.Fatal(app.Listen(":3000"))
+
+
 }

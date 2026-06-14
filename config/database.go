@@ -1,23 +1,34 @@
 package config
 
 import (
-	"context"
-	"log"
+"database/sql"
+"log"
 
-	"github.com/jackc/pgx/v5"
+
+_ "github.com/lib/pq"
+
+
 )
 
-func ConnectDB() *pgx.Conn {
-	conn, err := pgx.Connect(
-		context.Background(),
-		"postgres://postgres:Aditya%407781@localhost:5432/userdb",
-	)
+func ConnectDB() *sql.DB {
 
-	if err != nil {
-		log.Fatal("Failed to connect to database:", err)
-	}
 
-	log.Println("Database connected successfully")
+db, err := sql.Open(
+	"postgres",
+	"postgres://postgres:Aditya%407781@localhost:5432/userdb?sslmode=disable",
+)
 
-	return conn
+if err != nil {
+	log.Fatal("Failed to connect to database:", err)
+}
+
+if err := db.Ping(); err != nil {
+	log.Fatal("Failed to ping database:", err)
+}
+
+log.Println("Database connected successfully")
+
+return db
+
+
 }
