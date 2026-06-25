@@ -1,10 +1,12 @@
-FROM golang:1.25
+FROM golang:1.26
 
 WORKDIR /app
 
-COPY . .
+COPY go.mod go.sum ./
 
 RUN go mod download
+
+COPY . .
 
 RUN go build -o main ./cmd/server
 

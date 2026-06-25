@@ -3,19 +3,25 @@ package config
 import (
 "database/sql"
 "log"
+"os"
 
 
 _ "github.com/lib/pq"
+"github.com/joho/godotenv"
 
 
 )
 
 func ConnectDB() *sql.DB {
 
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
 db, err := sql.Open(
 	"postgres",
-	"postgres://postgres:Aditya%407781@localhost:5432/userdb?sslmode=disable",
+	os.Getenv("DB_URL"),
 )
 
 if err != nil {
